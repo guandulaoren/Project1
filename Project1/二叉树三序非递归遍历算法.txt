@@ -1,4 +1,53 @@
+void preOrder(BiTree t) {
+	initStack(s);
+	push(s,t);
+	BiTree * p;
+	// 栈顶一定是当前要开始遍历的树
+	while(!isEmpty(s)) {
+		getTop(s,p);
+		if (p) {
+			visit(p);
+			push(s,(*p).lchild);	
+		} else {
+			// 将栈顶空树出栈
+			pop(s,p);
+			// 将新栈顶的树出栈，并遍历它的右子树
+			if (!isEmpty(s)) {
+				pop(s,p);
+				visit(p);
+				push(s,(*p).rchild);
+			}
+		}
+	}		
+}
+
+
+
+
 void inOrder(BiTree t) {
+	initStack(s);
+	push(s,t);
+	BiTree * p;
+	// 栈顶一定是当前要开始遍历的树
+	while(!isEmpty(s)) {
+		getTop(s,p);
+		if (p) {
+			push(s,(*p).lchild);	
+		} else {
+			// 将栈顶空树出栈
+			pop(s,p);
+			if (!isEmpty(s)) {
+				pop(s,p);
+				visit(p);
+				push(s,(*p).rchild);
+			}
+		}
+	}		
+}
+
+
+
+void postOrder(BiTree t) {
 	initStack(s);
 	push(s,t);
 	BiTree * p,* pre;
@@ -6,7 +55,6 @@ void inOrder(BiTree t) {
 	while(!isEmpty(s)) {
 		getTop(s,p);
 		if (p) {
-			// visit(p);
 			push(s,(*p).lchild);	
 		} else {
 			// 将栈顶空树出栈
@@ -26,10 +74,6 @@ void inOrder(BiTree t) {
 				push(s,(*p).rchild);
 			
 			} 
-			// 先、中序遍历逻辑
-			pop(s,p);
-			// visit(p);
-			push(s,(*p).rchild);
 		}
 	}		
 }
