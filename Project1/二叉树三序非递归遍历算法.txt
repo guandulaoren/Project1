@@ -1,0 +1,35 @@
+void inOrder(BiTree t) {
+	initStack(s);
+	push(s,t);
+	BiTree * p,* pre;
+	// 栈顶一定是当前要开始遍历的树
+	while(!isEmpty(s)) {
+		getTop(s,p);
+		if (p) {
+			// visit(p);
+			push(s,(*p).lchild);	
+		} else {
+			// 将栈顶空树出栈
+			pop(s,p);
+			// 后序遍历逻辑	
+			getTop(s,p);
+			if (!(*p).rchild || pre==(*p).rchild) {
+				// 栈顶的树已经遍历完成
+				pop(s,p);
+				visit(p);
+				pre = p;
+				// 下次要遍历的树此时未知，因为不确定刚遍历完的树是其双亲（当前栈顶）的左子树，还是右子树。
+				// 空树入栈相当于给当前栈顶挂一个空子树，这样可以在循环的下次迭代中判断当前栈顶的遍历情况。
+				push(s,null);
+			} else {
+				// 栈顶的树没有遍历完，还剩右子树没遍历
+				push(s,(*p).rchild);
+			
+			} 
+			// 先、中序遍历逻辑
+			pop(s,p);
+			// visit(p);
+			push(s,(*p).rchild);
+		}
+	}		
+}
