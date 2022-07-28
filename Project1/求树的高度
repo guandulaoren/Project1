@@ -34,37 +34,24 @@ int getTreeHeightByLevelOrder(BiTree t) {
   while(!isEmpty(queue)) {
     // 队头出队，获取当前层要访问的结点
     BiTree p = quQueue(queue);
+    // 将当前结点的所有孩子依次入队，并获取它的最后一个孩子
+    BiTree point = (*p).lchild;
+    while (point && (*point).rchild) {
+        enQueue(queue,point);
+        point = (*point).rchild;
+    }     
+    // 将当前访问的结点的最后一个孩子记为下一层最后一个结点
+    if (point) {
+      nextLastNode = point;
+    }
     if (p==lastNode) {
       // 当前访问的结点是当前层的最后一个结点
-      // 获取它的最后一个孩子
-      BiTree point = (*p).lchild;
-      while (point && (*point).rchild) {
-          enQueue(queue,point);
-          point = (*point).rchild;
-      }     
-      // 将当前访问的结点的最后一个孩子记为下一层最后一个结点
-      if (point) {
-        nextLastNode = point;
-      }
-      // 当前层的最后一个结点,并且它的最后一个孩子存在，那就是下一层的最后一个结点，修改层最后结点
+      // 此时nextLastNode就是下一层最后结点
       lastNode = nextLastNode;
       // 下一层最后一个结点临时变量清空
       nextLastNode = null;
       // 每遍历完一层，树的高度+1
       height++;   
-    } else {
-      // 当前访问的结点不是当前层的最后一个结点
-      // 获取它的最后一个孩子
-      BiTree point = (*p).lchild;
-      while (point && (*point).rchild) {
-          enQueue(queue,point);
-          point = (*point).rchild;
-      }
-      // 暂时将当前访问的结点的最后一个孩子记为下一层最后一个结点
-      if (point) {
-        nextLastNode = point;
-      }      
     }
   }
-
 }
