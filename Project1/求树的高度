@@ -18,7 +18,8 @@ int forestHeight(BiTree t) {
 // 调用用森林的二叉树求森林高度的递归方法求出此树的高度
 
 
-// 非递归方式，求层次遍历树求树的高度
+// 非递归方式，层次遍历树求树的高度
+// t是树的对应二叉树
 int getTreeHeightByLevelOrder(BiTree t) {
   // 初始化队列
   initQueue(queue);
