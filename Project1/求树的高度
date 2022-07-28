@@ -13,7 +13,58 @@ int forestHeight(BiTree t) {
   // 求MAX(第一棵树的子树森林高度+1,其他树构成的子森林高度)
   return ch>oh?ch:oh;
 }
-
 // 一棵树的高度=只有它一棵树的森林的高度（求一棵树高度的问题转化为求森林高度的问题）
 // 这棵树对应的二叉树就是此单树森林对应的二叉树
 // 调用用森林的二叉树求森林高度的递归方法求出此树的高度
+
+
+// 非递归方式，求层次遍历树求树的高度
+int getTreeHeightByLevelOrder(BiTree t) {
+  // 初始化队列
+  initQueue(queue);
+  // 当前层的最后一个结点
+  BiTree lastNode = t;
+  // 下一层的目前最后一个结点
+  BiTree nextLastNode;
+  // 高度初始化为0
+  int height = 0;
+  // 树的根节点入队，等待访问
+  enQueue(queue,t);
+  // 只要队列不为空，就是存在需要访问的结点，遍历就不能停
+  while(!isEmpty(queue)) {
+    // 队头出队，获取当前层要访问的结点
+    BiTree p = quQueue(queue);
+    if (p==lastNode) {
+      // 当前访问的结点是当前层的最后一个结点
+      // 获取它的最后一个孩子
+      BiTree point = (*p).lchild;
+      while (point && (*point).rchild) {
+          enQueue(queue,point);
+          point = (*point).rchild;
+      }     
+      // 将当前访问的结点的最后一个孩子记为下一层最后一个结点
+      if (point) {
+        nextLastNode = point;
+      }
+      // 当前层的最后一个结点,并且它的最后一个孩子存在，那就是下一层的最后一个结点，修改层最后结点
+      lastNode = nextLastNode;
+      // 下一层最后一个结点临时变量清空
+      nextLastNode = null;
+      // 每遍历完一层，树的高度+1
+      height++;   
+    } else {
+      // 当前访问的结点不是当前层的最后一个结点
+      // 获取它的最后一个孩子
+      BiTree point = (*p).lchild;
+      while (point && (*point).rchild) {
+          enQueue(queue,point);
+          point = (*point).rchild;
+      }
+      // 暂时将当前访问的结点的最后一个孩子记为下一层最后一个结点
+      if (point) {
+        nextLastNode = point;
+      }      
+    }
+  }
+
+}
